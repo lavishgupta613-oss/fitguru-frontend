@@ -5,10 +5,11 @@ import { Link, useNavigate } from "react-router-dom";  // add useNavigate
 export default function Home() {
   const navigate = useNavigate();
    async function createNewChat() {
-    const res = await fetch("https://fitguru-backend.onrender.com//new-chat");
+    const res = await fetch("http://127.0.0.1:8000/new-chat");
     const data = await res.json();
 
     // Redirect to /chat/<session_id>
+
     navigate(`/chat/${data.session_id}`);
   }
   return (

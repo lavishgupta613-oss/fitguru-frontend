@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { Trash, Pin, PinOff } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { useParams } from "react-router-dom";
 
 
 export default function Chat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [chatName, setChatName] = useState("My Health Chat");
+  const { session_id } = useParams();
 
   const [loading, setLoading] = useState(false);
 
@@ -31,21 +33,28 @@ export default function Chat() {
  
 
   // Send message to backend
-  const sendMessage = async () => {
-    if (!input.trim()) return;
-    const userMsg = { sender: "user", text: input };
+  const sendMessage = async (text) => {
+    const finalText = text ?? input;
+    if (!finalText.trim()) return;
+    const userMsg = { sender: "user", text: finalText };
+    const payload = {
+    session_id: session_id,
+    message: finalText,
+  };
+
+  // 🔥 SHOW WHAT IS BEING SENT TO BACKEND
+  console.log("📤 Sending to backend:", payload);
 
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
 
     try {
-      const res = await fetch("https://fitguru-backend.onrender.com//chat", {
+      const res = await fetch("http://127.0.0.1:8000/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input ,session_id: "user_123"}),
+        body: JSON.stringify(payload),
       });
-
       const data = await res.json();
       const botMsg = { sender: "bot", text: data.reply };
 
@@ -63,9 +72,9 @@ export default function Chat() {
 
   // Quick prompts
   const quickPrompt = (msg) => {
-    setInput(msg);
-    sendMessage(msg);
-  };
+  sendMessage(msg);
+};
+
 
   // Add new note
   const addNote = () => {
@@ -199,16 +208,17 @@ export default function Chat() {
             />
           )}
 
-          <div
-            className={`p-3 rounded-2xl max-w-[70%] text-sm leading-relaxed shadow
-            ${
-              m.sender === "user"
-                ? "bg-blue-600 text-white rounded-br-none"
-                : "bg-white/10 text-white border border-white/10 rounded-bl-none"
-            }`}
-          >
-            {m.text}
-          </div>
+        <div
+  className={`p-3 rounded-2xl max-w-[70%] text-sm leading-relaxed shadow
+  ${
+    m.sender === "user"
+      ? "bg-blue-600 text-white rounded-br-none"
+      : "bg-white/10 text-white border border-white/10 rounded-bl-none"
+  }`}
+>
+  {m.sender === "bot" ? <ReactMarkdown>{m.text}</ReactMarkdown> : m.text}
+</div>
+
 
           {m.sender === "user" && (
             <img
@@ -249,7 +259,7 @@ export default function Chat() {
         placeholder="Ask FitGuru something..."
       />
       <button
-        onClick={sendMessage}
+        onClick={() => sendMessage()}
         className="bg-blue-600 px-6 py-3 rounded-xl text-white font-medium hover:bg-blue-700 transition active:scale-95"
       >
         Send
