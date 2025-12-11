@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 
 export default function Chat() {
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [chatName, setChatName] = useState("My Health Chat");
@@ -50,7 +51,7 @@ export default function Chat() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/chat", {
+      const res = await fetch(`${BACKEND_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

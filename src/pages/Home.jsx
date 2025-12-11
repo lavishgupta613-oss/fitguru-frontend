@@ -4,8 +4,10 @@ import { Link, useNavigate } from "react-router-dom";  // add useNavigate
 
 export default function Home() {
   const navigate = useNavigate();
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  console.log("Backend URL:", BACKEND_URL);
    async function createNewChat() {
-    const res = await fetch("http://127.0.0.1:8000/new-chat");
+    const res = await fetch(`${BACKEND_URL}/new-chat`);
     const data = await res.json();
 
     // Redirect to /chat/<session_id>
