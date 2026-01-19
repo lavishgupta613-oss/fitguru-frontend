@@ -9,7 +9,7 @@ export default function Navbar() {
     { name: "Home", path: "/" },
     { name: "Chat", path: "/chat" },
     { name: "Notes", path: "/notes" },
-    { name: "About", path: "/about" },
+    // { name: "About", path: "/about" },
   ];
 
   const linkClasses = (path) =>

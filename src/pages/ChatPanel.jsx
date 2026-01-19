@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import ProfilePanel from "./ProfilePanel";
 
@@ -12,7 +12,6 @@ export default function ChatPanel({
   loading,
 }) {
   const endRef = useRef(null);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   // Auto-scroll messages
   useEffect(() => {
@@ -22,10 +21,7 @@ export default function ChatPanel({
   return (
     <div className="flex flex-col h-full overflow-hidden relative">
       {/* PROFILE PANEL */}
-      <ProfilePanel
-        open={isProfileOpen}
-        onClose={() => setIsProfileOpen(false)}
-      />
+    
 
       {/* HEADER */}
       <header className="sticky top-0 z-10 py-3 bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg flex items-center px-4">
@@ -40,12 +36,7 @@ export default function ChatPanel({
           />
         </div>
 
-        <button
-          onClick={() => setIsProfileOpen((s) => !s)}
-          className="bg-white/20 hover:bg-white/30 p-2 rounded-lg"
-        >
-          📝
-        </button>
+       
       </header>
 
       {/* QUICK PROMPTS (ONLY WHEN EMPTY) */}

@@ -1,22 +1,19 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 
 import ChatPanel from "./ChatPanel";
 import NotesPanel from "./NotesPanel";
 import ProfilePanel from "./ProfilePanel";
 
-export default function Chat() {
+export default function Chat({ profile, setProfile }) {
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-  const { session_id } = useParams();
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [chatName, setChatName] = useState("My Health Chat");
   const [loading, setLoading] = useState(false);
   const [showNotes, setShowNotes] = useState(true);
-
-  // ✅ State for right panel
   const [showProfile, setShowProfile] = useState(false);
+  const [sessionId] = useState(() => crypto.randomUUID());
 
   const sendMessage = async (text) => {
     const finalText = text ?? input;
@@ -30,8 +27,9 @@ export default function Chat() {
       const res = await fetch(`${BACKEND_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ session_id, message: finalText }),
+        body: JSON.stringify({    session_id: sessionId,message: finalText }),
       });
+
       const data = await res.json();
       setMessages((p) => [...p, { sender: "bot", text: data.reply }]);
     } catch {
@@ -46,9 +44,9 @@ export default function Chat() {
 
   return (
     <>
-      {/* ===== MAIN GRID: Notes + Chat ===== */}
       <div
-        className={`grid h-[calc(100vh-66px)] bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white
+        className={`grid h-[calc(100vh-66px)] bg-gradient-to-br
+        from-gray-900 via-gray-800 to-gray-900 text-white
         ${showNotes ? "grid-cols-[320px_1fr]" : "grid-cols-1"}`}
       >
         {showNotes && (
@@ -68,10 +66,11 @@ export default function Chat() {
         />
       </div>
 
-      {/* ===== RIGHT PANEL: Profile Drawer ===== */}
       <ProfilePanel
         open={showProfile}
         onClose={() => setShowProfile(false)}
+        profile={profile}
+        setProfile={setProfile}
       />
     </>
   );

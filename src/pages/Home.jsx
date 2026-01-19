@@ -11,15 +11,17 @@ export default function Home() {
     const data = await res.json();
 
     // Redirect to /chat/<session_id>
-
-    navigate(`/chat/${data.session_id}`);
+    const val=data.session_id;
+    console.log(val);
+    navigate(`/chat/`);
   }
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-200 via-indigo-300 to-purple-400 text-white flex flex-col items-center justify-between py-10 px-5 relative overflow-hidden">
-
+    <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-br from-blue-200 via-indigo-300 to-purple-400 text-white flex flex-col items-center py-10 px-5 relative">
+    
       {/* Floating background circles */}
-      <div className="absolute w-72 h-72 bg-blue-400 rounded-full opacity-30 blur-3xl animate-pulse -top-10 -left-10"></div>
-      <div className="absolute w-96 h-96 bg-purple-500 rounded-full opacity-30 blur-3xl animate-pulse bottom-0 right-0"></div>
+      <div className="absolute w-72 h-72 bg-blue-400 rounded-full opacity-30 blur-3xl animate-pulse -top-20 -left-20 pointer-events-none"></div>
+<div className="absolute w-96 h-96 bg-purple-500 rounded-full opacity-30 blur-3xl animate-pulse -bottom-20 -right-20 pointer-events-none"></div>
+
 
       {/* Hero Section */}
       <div className="text-center mt-10 z-10">

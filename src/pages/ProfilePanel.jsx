@@ -1,37 +1,42 @@
-import { useState } from "react";
+// import { useState } from "react";
 
-export default function ProfilePanel({ open, onClose }) {
-  const [form, setForm] = useState({
-    age: "",
-    weight: "",
-    height: "",
-    target: "",
-    activity: "",
-    notes: [""], // start with one note
-  });
+export default function ProfilePanel({ open, onClose,profile,setProfile }) {
 
   // Handle input change for basic fields
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
   // Handle change for notes array
-  const handleNoteChange = (index, value) => {
-    const newNotes = [...form.notes];
-    newNotes[index] = value;
-    setForm({ ...form, notes: newNotes });
-  };
+const handleNoteChange = (index, value) => {
+  setProfile((prev) => ({
+    ...prev,
+    notes: prev.notes.map((n, i) =>
+      i === index ? { ...n, text: value } : n
+    ),
+  }));
+};
+
 
   // Add a new note
-  const addNote = () => {
-    setForm({ ...form, notes: [...form.notes, ""] });
-  };
+const addNote = () => {
+  setProfile((prev) => ({
+    ...prev,
+    notes: [...prev.notes, { id: Date.now(), text: "" }],
+  }));
+};
+
+
 
   // Remove a note
-  const removeNote = (index) => {
-    const newNotes = form.notes.filter((_, i) => i !== index);
-    setForm({ ...form, notes: newNotes });
-  };
+ const removeNote = (index) => {
+  setProfile((prev) => ({
+    ...prev,
+    notes: prev.notes.filter((_, i) => i !== index),
+  }));
+};
+
 const preventEnter = (e) => {
   if (e.key === "Enter") {
     e.preventDefault();
@@ -43,7 +48,7 @@ const handleSave = async () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(form),
+    body: JSON.stringify(profile),
   });
 
   onClose();
@@ -89,7 +94,7 @@ const handleSave = async () => {
      <input
   name="age"
   type="number"
-  value={form.age}
+  value={profile.age}
   onChange={handleChange}
   onKeyDown={preventEnter}
   placeholder="Enter your age"
@@ -108,7 +113,7 @@ const handleSave = async () => {
               <input
                 name="weight"
                 type="number"
-                value={form.weight}
+                value={profile.weight}
                 onChange={handleChange}
                 className="w-full rounded-lg bg-gray-700 px-3 py-2
                   focus:outline-none focus:ring-2 focus:ring-purple-500
@@ -125,7 +130,7 @@ const handleSave = async () => {
               <input
                 name="height"
                 type="number"
-                value={form.height}
+                value={profile.height}
                 onChange={handleChange}
                 className="w-full rounded-lg bg-gray-700 px-3 py-2
                   focus:outline-none focus:ring-2 focus:ring-purple-500
@@ -138,8 +143,8 @@ const handleSave = async () => {
             <div>
               <label className="block text-sm text-gray-200 mb-1">Goal</label>
               <select
-                name="target"
-                value={form.target}
+                name="goal"
+                value={profile.goal}
                 onChange={handleChange}
                 className="w-full rounded-lg bg-gray-700 px-3 py-2
                   focus:outline-none focus:ring-2 focus:ring-purple-500
@@ -159,16 +164,16 @@ const handleSave = async () => {
               </label>
               <select
                 name="activity"
-                value={form.activity}
+                value={profile.activity}
                 onChange={handleChange}
                 className="w-full rounded-lg bg-gray-700 px-3 py-2
                   focus:outline-none focus:ring-2 focus:ring-purple-500
                   text-gray-200"
               >
                 <option value="">Select level</option>
-                <option>Low</option>
-                <option>Moderate</option>
-                <option>High</option>
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="high">High</option>
               </select>
             </div>
 
@@ -177,29 +182,30 @@ const handleSave = async () => {
               <label className="block text-sm text-gray-200 mb-1">
                 Notes
               </label>
-              {form.notes.map((note, index) => (
-                <div key={index} className="flex mb-2 items-start space-x-2">
-                  <textarea
-                    rows={2}
-                    value={note}
-                    onChange={(e) => handleNoteChange(index, e.target.value)}
-                    placeholder={`Note ${index + 1}`}
-                    className="flex-1 rounded-lg bg-gray-700 px-3 py-2
-                      text-gray-200 placeholder:text-gray-400
-                      focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  />
-                  {form.notes.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeNote(index)}
-                      className="text-red-500 hover:text-red-400 font-bold"
-                    >
-                      ✕
-                    </button>
-                  )}
-                </div>
-              ))}
-              <button
+           {profile.notes.map((note, index) => (
+  <div key={note.id} className="flex mb-2 items-start space-x-2">
+    <textarea
+      rows={2}
+      value={note.text}   // ✅ FIX
+      onChange={(e) => handleNoteChange(index, e.target.value)}
+      placeholder={`Note ${index + 1}`}
+      className="flex-1 rounded-lg bg-gray-700 px-3 py-2
+        text-gray-200 placeholder:text-gray-400
+        focus:outline-none focus:ring-2 focus:ring-purple-500"
+    />
+    {profile.notes.length > 1 && (
+      <button
+        type="button"
+        onClick={() => removeNote(index)}
+        className="text-red-500 hover:text-red-400 font-bold"
+      >
+        ✕
+      </button>
+    )}
+  </div>
+))}
+
+             <button
                 type="button"
                 onClick={addNote}
                 className="mt-2 w-full bg-purple-600 hover:bg-purple-700 py-2 rounded-lg text-white font-semibold transition"

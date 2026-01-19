@@ -1,15 +1,8 @@
 import { useEffect, useState } from "react";
 import { Trash } from "lucide-react";
 
-export default function ProfilePanel() {
-  const [profile, setProfile] = useState({
-    age: "",
-    weight: "",
-    height: "",
-    goal: "",
-    activity: "",
-    notes: [],
-  });
+export default function Note({ profile, setProfile }) {
+ 
 
   const [newNote, setNewNote] = useState("");
 
@@ -133,7 +126,7 @@ export default function ProfilePanel() {
           </div>
 
           {/* NOTES LIST */}
-          <div className="flex-1 overflow-y-auto space-y-3 pr-1">
+          <div className="flex-1 space-y-3 pr-1">
             {profile.notes.length === 0 && (
               <p className="text-gray-500 text-sm">
                 No notes yet. Start tracking your journey ✨
