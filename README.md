@@ -1,12 +1,21 @@
-# 🏋️ FitGuru – Frontend (React)
+# FitGuru – Frontend (React + Vite)
 
-FitGuru Frontend is a modern React-based web application that provides an interactive UI for chatting with an AI-powered fitness coach. It includes multiple functional pages such as Home, Chat, Notes, Profile, and more.
+FitGuru Frontend is a modern React application built with Vite. It provides an interactive UI for chatting with an AI-powered fitness coach and includes multiple functional pages such as Home, Chat, Notes, Profile, and more.
 
-## Live Demo
-Frontend deployed on: *[Live Link](https://fitguru-frontend.onrender.com/)* 
+## Table of Contents
+- Features
+- Tech Stack
+- Project Structure
+- Installation
+- Usage
+- API
+- Environment Variables
+- Screenshots
+- Contributing
+- License
+- Author
 
 ## Features
-Core Features:
 - AI Chat (Fitness Coach)
 - Personalized fitness suggestions
 - Notes section to save fitness logs
@@ -14,35 +23,53 @@ Core Features:
 - Eye relaxation exercises
 - Clearhead / mindfulness page
 - Profile management panel
-
-UI Features:
-- Responsive and clean design
+- Responsive and clean UI
 - Session-based chat
-- Easy navigation between pages
-
-## Pages (in src/pages)
-Your project contains multiple pages:
-- Home.jsx : Landing and dashboard
-- Chat.jsx : Main chat interface with AI coach
-- ChatPanel.jsx : Chat sidebar or chat controls
-- Notes.jsx : Notes and fitness logs
-- NotesPanel.jsx : Notes sidebar or notes controls
-- ProfilePanel.jsx : Profile details & update panel
-- calm-breath.jsx : Breathing exercise page
-- RelaxEye.jsx : Eye relaxation exercises
-- Clearhead.jsx : Mindfulness / mental wellness
-- info.jsx : About / app information page
 
 ## Tech Stack
 - React
+- Vite
 - JavaScript (ES6+)
 - CSS / Tailwind
 - React Router
 - Fetch / Axios
-- FastAPI (backend)
-- Render (deployment)
 
-## Backend Integration
+fitguru-frontend/
+
+├── public/   
+│ └── index.html    
+├── src/    
+│ ├── assets/     
+│ ├── components/     
+│ ├── pages/     
+│ ├── utils/     
+│ ├── App.jsx    
+│ └── main.jsx    
+├── .gitignore     
+├── package.json    
+├── package-lock.json    
+├── vite.config.js     
+└── README.md    
+
+## Deployment
+Frontend is deployed on Render: [Live Link](https://fitguru-frontend.onrender.com/)
+
+## Installation
+1. Clone the repository
+git clone https://github.com/lavishgupta613-oss/fitguru-frontend.git
+cd fitguru-frontend
+
+2. Install dependencies
+npm install
+
+## Usage
+Run the app locally:
+npm run dev
+
+Open in browser:
+http://localhost:5173
+
+## API
 The frontend communicates with the backend using REST APIs.
 
 Create New Chat Session:
@@ -62,32 +89,9 @@ Response:
   "reply": "Try a 20-minute full body workout today 💪"
 }
 
-## Environment Setup
-Create a .env file in the root directory:
 
 REACT_APP_BACKEND_URL=https://your-backend-url.onrender.com
 
-## Local Development
-1. Clone the repository
-git clone https://github.com/lavishgupta613-oss/fitguru-frontend.git
-cd fitguru-frontend
-
-2. Install dependencies
-npm install
-
-3. Run the app
-npm start
-
-The app will run at:
-http://localhost:5173
-
-
-
-
-## Screenshots (Optional)
-You may add:
-- Home page
-- Chat page
-- Notes page
-- Breathing exercises page
+## Screenshots
+(Optional but recommended — add screenshots of Home, Chat, Notes, etc.)
 
