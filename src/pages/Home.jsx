@@ -7,13 +7,14 @@ export default function Home() {
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   console.log("Backend URL:", BACKEND_URL);
    async function createNewChat() {
+     navigate(`/chat/`);
     const res = await fetch(`${BACKEND_URL}/new-chat`);
     const data = await res.json();
-
+   
     // Redirect to /chat/<session_id>
     const val=data.session_id;
     console.log(val);
-    navigate(`/chat/`);
+    
   }
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-br from-blue-200 via-indigo-300 to-purple-400 text-white flex flex-col items-center py-10 px-5 relative">
