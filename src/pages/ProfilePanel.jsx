@@ -50,7 +50,7 @@ const handleSave = async () => {
     },
     body: JSON.stringify(profile),
   });
-
+  console.log("Profile saved:",JSON.stringify(profile));
   onClose();
 };
 
