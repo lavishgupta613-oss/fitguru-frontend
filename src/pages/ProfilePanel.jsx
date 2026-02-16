@@ -43,7 +43,8 @@ const preventEnter = (e) => {
   }
 };
 const handleSave = async () => {
-  await fetch("http://localhost:8000/profile", {
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  await fetch(`${BACKEND_URL}/profile`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
