@@ -1,8 +1,19 @@
 // import { useState } from "react";
+import { useEffect } from "react";
 
 export default function ProfilePanel({ open, onClose,profile,setProfile }) {
 
   // Handle input change for basic fields
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("fitguru_profile"));
+    if (saved) setProfile(saved);
+  }, []);
+
+  /* ---------- SAVE TO LOCAL STORAGE ---------- */
+  useEffect(() => {
+    localStorage.setItem("fitguru_profile", JSON.stringify(profile));
+  }, [profile]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
